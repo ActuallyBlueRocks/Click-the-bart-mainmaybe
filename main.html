@@ -28,7 +28,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>click the bart</title>
+    <title>click the dart</title>
     <style>
         @font-face {
             font-family: 'CustomFont';
@@ -117,15 +117,10 @@
         ];
     
         document.getElementById('textInput').addEventListener('input', function() {
-            if (this.value.toUpperCase() === 'HOMER') {
-                window.location.href = 'dead.html';
+            if (this.value.toUpperCase() === 'DOMER') {
+                window.location.href = 'domer.html';
             }
-            if (this.value.toUpperCase() === 'HORSE') {
-                window.location.href = 'horse.html';
-            }
-            if (this.value.toUpperCase() === 'SOAPYDX') {
-                window.location.href = 'soapydx.html';
-            }
+
         });
     
         document.addEventListener('keydown', function() {
@@ -140,7 +135,7 @@
             audio.loop = true;
             document.body.appendChild(audio);
             document.getElementById('inputContainer').style.display = 'block';
-            document.getElementById('bartLink').href = 'goodbye.html';
+            document.getElementById('bartLink').href = 'domertell.html';
             document.getElementById('bartImage').src = 'dart.png';
             document.getElementById('eye1').style.display = 'block';
             document.getElementById('eye2').style.display = 'block';
