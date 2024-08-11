@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>its him</title>
+    <title>Domer Game</title>
     <style>
         body {
             margin: 0;
@@ -32,7 +32,6 @@
             transform: translate(-50%, -50%);
             top: 50%;
             color: red;
-            font-family: 'Papyrus', sans-serif;
             font-size: 24px;
             text-decoration: none;
         }
@@ -44,8 +43,25 @@
 </head>
 <body>
     <div class="image-container">
-        <img src="domer.png" alt="doomer">
+        <img src="domer.png" alt="Domer Image">
     </div>
-    <a href="game.html">play his game.</a>
+    <a href="game.html" id="changing-font-text">play his game.</a>
+
+    <script>
+        const textElement = document.getElementById('changing-font-text');
+        const fonts = [
+            'Arial', 'Verdana', 'Times New Roman', 'Georgia', 'Courier New', 'Brush Script MT', 
+            'Lucida Console', 'Garamond', 'Impact', 'Comic Sans MS', 'Papyrus', 'Trebuchet MS'
+        ];
+
+        let currentIndex = 0;
+
+        function changeFont() {
+            textElement.style.fontFamily = fonts[currentIndex];
+            currentIndex = (currentIndex + 1) % fonts.length;
+        }
+
+        setInterval(changeFont, 100);
+    </script>
 </body>
 </html>
