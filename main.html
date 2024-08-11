@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        (function() {
+            function disableConsoleAccess() {
+                document.addEventListener('keydown', function(event) {
+                    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.keyCode === 73) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        alert('fuck you.');
+                    }
+                }, true);
+                
+                document.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                }, true);
+                
+                Object.defineProperty(window, 'console', {
+                    get: function() {
+                        throw new Error('Console access is disabled.');
+                    }
+                });
+            }
+    
+            disableConsoleAccess();
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>click the bart</title>
+    <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('font.otf') format('opentype');
+        }
+        body {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'CustomFont', Arial, sans-serif;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        img {
+            cursor: pointer;
+            max-width: 100%;
+            height: auto;
+        }
+        .input-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: none;
+        }
+        input[type="text"] {
+            padding: 5px;
+            font-size: 16px;
+            font-family: 'CustomFont', Arial, sans-serif;
+        }
+        .delete-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'CustomFont', Arial, sans-serif;
+        }
+        .eye {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container" id="inputContainer">
+        <input type="text" id="textInput" placeholder="INSERT CODE HERE">
+    </div>
+    <div class="container">
+        <a href="bart.html" id="bartLink">
+            <img src="bart.png" alt="Clickable Image" id="bartImage">
+            <img src="barteye1.png" alt="Eye 1" class="eye" id="eye1" style="display: none;">
+            <img src="barteye1.png" alt="Eye 2" class="eye" id="eye2" style="display: none;">
+        </a>
+    </div>
+    <script>
+        function exitFullscreen() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(err => console.error(err));
+            } else if (document.webkitFullscreenElement) {
+                document.webkitExitFullscreen().catch(err => console.error(err));
+            } else if (document.mozFullScreenElement) {
+                document.mozCancelFullScreen().catch(err => console.error(err));
+            } else if (document.msFullscreenElement) {
+                document.msExitFullscreen().catch(err => console.error(err));
+            }
+        }
+    
+        window.addEventListener('load', exitFullscreen);
+    
+        const sounds = [
+            new Audio('keyboard1.mp3'),
+            new Audio('keyboard2.mp3'),
+            new Audio('keyboard3.mp3'),
+            new Audio('keyboard4.mp3')
+        ];
+    
+        document.getElementById('textInput').addEventListener('input', function() {
+            if (this.value.toUpperCase() === 'HOMER') {
+                window.location.href = 'dead.html';
+            }
+            if (this.value.toUpperCase() === 'HORSE') {
+                window.location.href = 'horse.html';
+            }
+            if (this.value.toUpperCase() === 'SOAPYDX') {
+                window.location.href = 'soapydx.html';
+            }
+        });
+    
+        document.addEventListener('keydown', function() {
+            const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+            randomSound.play();
+        });
+    
+        if (localStorage.getItem('visitedBart')) {
+            const audio = new Audio('bartambience.mp3');
+            audio.volume = 0.2;
+            audio.autoplay = true;
+            audio.loop = true;
+            document.body.appendChild(audio);
+            document.getElementById('inputContainer').style.display = 'block';
+            document.getElementById('bartLink').href = 'goodbye.html';
+            document.getElementById('bartImage').src = 'bartnoeyes.png';
+            document.getElementById('eye1').style.display = 'block';
+            document.getElementById('eye2').style.display = 'block';
+
+            document.getElementById('eye1').style.left = 'calc(53% - 20px)';
+            document.getElementById('eye1').style.top = 'calc(45% - 50px)';
+            document.getElementById('eye2').style.left = 'calc(19% + 20px)';
+            document.getElementById('eye2').style.top = 'calc(45% - 50px)';
+
+            document.addEventListener('mousemove', function(event) {
+                const eyes = document.querySelectorAll('.eye');
+                eyes.forEach(eye => {
+                    const rect = eye.getBoundingClientRect();
+                    const eyeX = rect.left + rect.width / 50;
+                    const eyeY = rect.top + rect.height / 50;
+                    const angle = Math.atan2(event.clientY - eyeY, event.clientX - eyeX);
+                    const distance = 8;
+                    const x = eyeX + distance * Math.cos(angle) - rect.left;
+                    const y = eyeY + distance * Math.sin(angle) - rect.top;
+                    eye.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        }
+    
+        document.getElementById('bartLink').addEventListener('click', function() {
+            localStorage.setItem('visitedBart', 'true');
+        });
+    
+        function deleteSiteData() {
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
