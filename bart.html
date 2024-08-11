@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        (function() {
+            function disableConsoleAccess() {
+                document.addEventListener('keydown', function(event) {
+                    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.keyCode === 73) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        alert('fuck you.');
+                    }
+                }, true);
+                
+                document.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                }, true);
+                
+                Object.defineProperty(window, 'console', {
+                    get: function() {
+                        throw new Error('Console access is disabled.');
+                    }
+                });
+            }
+    
+            disableConsoleAccess();
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i see you</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+            font-family: 'CustomFont', sans-serif;
+        }
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('font.otf') format('opentype');
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 100s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #image {
+            position: absolute;
+            bottom: 10%;
+            left: 10%;
+            width: 20%;
+            height: auto;
+            object-fit: cover;
+            z-index: -1;
+        }
+        #text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            text-align: center;
+        }
+        #bart {
+            position: absolute;
+            bottom: 10%;
+            right: 10%;
+            font-size: 1.5em;
+            color: white;
+            opacity: 0;
+            transition: opacity 5s;
+        }
+    </style>
+</head>
+<body>
+    <audio id="audio" autoplay>
+        <source src="sayhello.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <img id="image" class="fade-in" src="iseeyoubart.png" alt="Background Image">
+    <div id="text" class="fade-in">...</div>
+    <div id="bart">HOMER</div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const bart = document.getElementById('bart');
+        
+        audio.addEventListener('canplaythrough', () => {
+            const fadeInDuration = 5;
+            
+            
+            setTimeout(() => {
+                bart.style.opacity = 1;
+            }, audio.duration * 1000);
+            
+            setTimeout(() => {
+                window.location.href = 'main.html';
+            }, audio.duration * 1000 + fadeInDuration * 1000);
+        });
+    </script>
+</body>
+</html>
