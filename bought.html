@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
+    <title>bought.</title>
     <style>
         body {
             display: flex;
@@ -17,10 +17,17 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
+        #videoContainer {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         video {
             width: 80%; /* Adjust width as needed */
             max-width: 800px; /* Max width of the video */
             height: auto;
+            background-color: black; /* Background color to match the video */
         }
         button {
             font-size: 1.5em;
@@ -38,11 +45,13 @@
     </style>
 </head>
 <body>
-    <video id="video" controls>
-        <source src="shucks.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <button id="playButton">Play</button>
+    <div id="videoContainer">
+        <video id="video">
+            <source src="shucks.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button id="playButton">Play</button>
+    </div>
 
     <script>
         const video = document.getElementById('video');
