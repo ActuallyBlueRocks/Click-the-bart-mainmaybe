@@ -160,6 +160,11 @@
                     balance -= 5000; // Lose money when not winning
                     document.getElementById('result').textContent = "Try again!";
                     losingSound.play(); // Play losing sound
+
+                    // Very low chance of opening the new HTML
+                    if (Math.random() < 0.08) { // 1% chance
+                        window.location.href = "FartsRoom.html"; // Change to your new HTML page
+                    }
                 }
 
                 document.getElementById('balance').textContent = "Balance: $" + balance;
