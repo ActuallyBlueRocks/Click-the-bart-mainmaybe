@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domers Slots</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: black;
+            color: white;
+            position: relative;
+        }
+        #slot-machine {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+        button {
+            font-size: 2em;
+            padding: 15px 30px;
+            margin-top: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 2em;
+        }
+        #balance {
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+        #goal {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.5em;
+        }
+        #image-container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: white; /* Background color for visibility */
+            padding: 5px; /* Padding around the image */
+            border-radius: 5px; /* Optional: rounded corners */
+        }
+        #image-container img {
+            width: 239px;
+            height: 391px;
+        }
+        #buy-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            background-color: red; /* Red button color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #buy-button:hover {
+            background-color: #cc0000; /* Darker red on hover */
+        }
+        #buy-button:active {
+            background-color: #990000; /* Even darker red on click */
+        }
+    </style>
+</head>
+<body>
+    <h1>DOMERS SLOT MACHINE !!!</h1>
+    <div id="slot-machine">
+        <span id="slot1">7</span> |
+        <span id="slot2">7</span> |
+        <span id="slot3">7</span>
+    </div>
+    <button id="spinButton" onclick="spin()">Spin</button>
+    <div id="result"></div>
+    <div id="balance">Balance: $0</div>
+    <div id="goal">Goal: $50,000</div>
+    
+    <div id="image-container">
+        <img id="domerImage" src="domer.png" alt="Domer">
+    </div>
+
+    <button id="buy-button" onclick="buyHouse()">Buy Domers House</button>
+
+    <audio id="spinSound" src="spinning.wav" preload="auto"></audio>
+    <audio id="winningSound" src="winning.wav" preload="auto"></audio>
+    <audio id="losingSound" src="losing.wav" preload="auto"></audio>
+    <audio id="aoughSound" src="aough.wav" preload="auto"></audio> <!-- Added audio element -->
+
+    <script>
+        let balance = 0;
+        let finalSlots = [0, 0, 0];
+        const spinSound = document.getElementById('spinSound');
+        const winningSound = document.getElementById('winningSound');
+        const losingSound = document.getElementById('losingSound');
+        const aoughSound = document.getElementById('aoughSound'); // Added sound element
+        const domerImage = document.getElementById('domerImage');
+
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 10); // Generates a random number from 0 to 9
+        }
+
+        function displayRandomNumbers() {
+            document.getElementById('slot1').textContent = getRandomNumber();
+            document.getElementById('slot2').textContent = getRandomNumber();
+            document.getElementById('slot3').textContent = getRandomNumber();
+        }
+
+        function spin() {
+            const slot1Elem = document.getElementById('slot1');
+            const slot2Elem = document.getElementById('slot2');
+            const slot3Elem = document.getElementById('slot3');
+            const spinButton = document.getElementById('spinButton');
+
+            // Disable the spin button and grey it out
+            spinButton.disabled = true;
+
+            // Play and loop the spinning sound
+            spinSound.loop = true;
+            spinSound.play();
+
+            // Set final numbers with 50/50 chance
+            const isWinning = Math.random() < 0.5;
+            finalSlots = [getRandomNumber(), getRandomNumber(), getRandomNumber()];
+            if (isWinning) {
+                finalSlots[0] = finalSlots[1] = finalSlots[2];
+            }
+
+            // Show random numbers while spinning
+            const interval = setInterval(() => {
+                displayRandomNumbers();
+            }, 20); // Change every 20ms
+
+            setTimeout(() => {
+                clearInterval(interval);
+                spinSound.pause(); // Stop the spinning sound
+                spinSound.currentTime = 0; // Reset the sound to the beginning
+                slot1Elem.textContent = finalSlots[0];
+                slot2Elem.textContent = finalSlots[1];
+                slot3Elem.textContent = finalSlots[2];
+
+                if (finalSlots[0] === finalSlots[1] && finalSlots[1] === finalSlots[2]) {
+                    balance += 10000;
+                    document.getElementById('result').textContent = "You won $10,000!";
+                    winningSound.play(); // Play winning sound
+                } else {
+                    balance -= 5000; // Lose money when not winning
+                    document.getElementById('result').textContent = "Try again!";
+                    losingSound.play(); // Play losing sound
+                }
+
+                document.getElementById('balance').textContent = "Balance: $" + balance;
+
+                // Re-enable the spin button after the spin is complete
+                spinButton.disabled = false;
+            }, 1000); // Spin for 1 second
+        }
+
+        function buyHouse() {
+            if (balance >= 50000) {
+                window.location.href = "whatyoudeserve.html"; // Change to your desired page
+            } else {
+                alert("You need $50,000 to buy Domers House!");
+            }
+        }
+
+        // Change the image and play sound when hovering over the buy button
+        const buyButton = document.getElementById('buy-button');
+        buyButton.addEventListener('mouseover', () => {
+            domerImage.src = 'domerscared.png';
+            aoughSound.play(); // Play sound effect on hover
+        });
+
+        buyButton.addEventListener('mouseout', () => {
+            domerImage.src = 'domer.png';
+        });
+    </script>
+</body>
+</html>

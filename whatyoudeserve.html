@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What You Deserve</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #title {
+            font-size: 4em; /* Increase font size */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="title">What you deserve</div>
+
+    <script>
+        const titleElement = document.getElementById('title');
+        const baseText = "What you deserve";
+        let index = 0;
+
+        function updateTitle() {
+            let waveText = baseText.split('').map((char, i) => {
+                return i % 4 === index % 4 ? char.toUpperCase() : char.toLowerCase();
+            }).join('');
+            
+            titleElement.textContent = waveText;
+            index = (index + 1) % 4; // Loop through 4 different wave states
+        }
+
+        setInterval(updateTitle, 1000); // Update every 200ms
+    </script>
+</body>
+</html>
