@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domer Figure but evil figure but domer was evil if he was evil</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #videoContainer {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        video {
+            width: 80%; /* Adjust width as needed */
+            max-width: 800px; /* Max width of the video */
+            height: auto;
+            background-color: black; /* Background color to match the video */
+        }
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div id="videoContainer">
+        <video id="video">
+            <source src="evil.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button id="playButton">Play</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const playButton = document.getElementById('playButton');
+
+        playButton.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playButton.textContent = 'Pause';
+            } else {
+                video.pause();
+                playButton.textContent = 'Play';
+            }
+        });
+    </script>
+</body>
+</html>
